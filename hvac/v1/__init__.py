@@ -235,7 +235,7 @@ class Client(object):
 
     def enable_secret_backend(self, backend_type, description=None, mount_point=None, config=None):
         """
-        POST /sys/auth/<mount point>
+        POST /sys/mounts/<mount point>
         """
         if not mount_point:
             mount_point = backend_type
@@ -247,6 +247,18 @@ class Client(object):
         }
 
         self._post('/v1/sys/mounts/{0}'.format(mount_point), json=params)
+
+    def tune_secret_backend(self, mount_point, default_lease_ttl=None, max_lease_ttl=None):
+        """
+        POST /sys/mounts/<mount point>/tune
+        """
+
+        params = {
+            'default_lease_ttl': default_lease_ttl,
+            'max_lease_ttl': max_lease_ttl,
+        }
+
+        self._post('/v1/sys/mounts/{0}/tune'.format(mount_point), json=params)
 
     def disable_secret_backend(self, mount_point):
         """
